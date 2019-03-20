@@ -9,16 +9,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Welcome to Flutter',
-      theme: ThemeData(
-        primaryColor: Colors.green
-      ),
-      home: new RandomWord()
-    );
+        title: 'Welcome to Flutter',
+        theme: ThemeData(primaryColor: Colors.green),
+        home: new RandomWord());
   }
 }
 
-class  RandomWord extends StatefulWidget {
+class RandomWord extends StatefulWidget {
   @override
   createState() => new RandomWordsState();
 }
@@ -28,7 +25,7 @@ class RandomWordsState extends State<RandomWord> {
   final _biggerFont = const TextStyle(fontSize: 18.0);
   final _saved = new Set<WordPair>();
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Startup Name Generator'),
@@ -47,13 +44,13 @@ class RandomWordsState extends State<RandomWord> {
     );
   }
 
-  Widget _buildSuggestions(){
+  Widget _buildSuggestions() {
     return new ListView.builder(
       padding: const EdgeInsets.all(16.0),
       itemBuilder: (context, i) {
-        if(i.isOdd) return new Divider();
+        if (i.isOdd) return new Divider();
         final index = i ~/ 2;
-        if(index >= _suggestions.length){
+        if (index >= _suggestions.length) {
           _suggestions.addAll(generateWordPairs().take(10));
         }
         return _buildRow(_suggestions[index]);
@@ -61,22 +58,20 @@ class RandomWordsState extends State<RandomWord> {
     );
   }
 
-  Widget _buildRow(WordPair pair){
-    final alreadySaved =_saved.contains(pair);
+  Widget _buildRow(WordPair pair) {
+    final alreadySaved = _saved.contains(pair);
     return new ListTile(
       title: new Text(
         pair.asPascalCase,
-        style:_biggerFont,
+        style: _biggerFont,
       ),
-      trailing: new Icon(
-        alreadySaved ? Icons.favorite : Icons.favorite_border,
-        color:alreadySaved ? Colors.red :null
-      ),
-      onTap: (){
+      trailing: new Icon(alreadySaved ? Icons.favorite : Icons.favorite_border,
+          color: alreadySaved ? Colors.red : null),
+      onTap: () {
         setState(() {
-          if(alreadySaved){
+          if (alreadySaved) {
             _saved.remove(pair);
-          }else{
+          } else {
             _saved.add(pair);
           }
         });
@@ -84,49 +79,40 @@ class RandomWordsState extends State<RandomWord> {
     );
   }
 
-  void _pushSaved(){
-    Navigator.of(context).push(
-      new MaterialPageRoute(
-        builder: (context){
-          final tiles =_saved.map(
-            (pair){
-              return new ListTile(
-                title: new Text(
-                  pair.asPascalCase,
-                  style:_biggerFont,
-                )
-              );
-            }
-          );
-          final divided = ListTile.divideTiles(
-            context: context,
-            tiles: tiles,
-          ).toList();
+  void _pushSaved() {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
+      final tiles = _saved.map((pair) {
+        return new ListTile(
+            title: new Text(
+          pair.asPascalCase,
+          style: _biggerFont,
+        ));
+      });
+      final divided = ListTile.divideTiles(
+        context: context,
+        tiles: tiles,
+      ).toList();
 
-          return new Scaffold(
-            appBar: new AppBar(
-              title: new Text('Saved Suggestions'),
-            ),
-            body: new ListView(children: divided,),
-          );
-        }
-      )
-    );
+      return new Scaffold(
+        appBar: new AppBar(
+          title: new Text('Saved Suggestions'),
+        ),
+        body: new ListView(
+          children: divided,
+        ),
+      );
+    }));
   }
 
-  void _pushVideo(){
-    Navigator.of(context).push(
-      new MaterialPageRoute(
-        builder: (context){
-          return new Scaffold(
-            appBar: new AppBar(
-              title: new Text('Video'),
-            ),
-            body: new VideoApp(),
-          );
-        }
-      )
-    );
+  void _pushVideo() {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
+      return new Scaffold(
+        appBar: new AppBar(
+          title: new Text('Video'),
+        ),
+        body: new VideoApp(),
+      );
+    }));
   }
 }
 
