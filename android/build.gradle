@@ -1,10 +1,10 @@
 buildscript {
     repositories {
-        // google()
-        // jcenter()
-        maven {
-            url "http://maven.oa.com/nexus/content/groups/androidbuild"
-        }
+        google()
+        jcenter()
+        // maven {
+        //     url "http://maven.oa.com/nexus/content/groups/androidbuild"
+        // }
     }
 
     dependencies {
@@ -14,11 +14,11 @@ buildscript {
 
 allprojects {
     repositories {
-        // google()
-        // jcenter()
-        maven {
-            url "http://maven.oa.com/nexus/content/groups/androidbuild"
-        }
+        google()
+        jcenter()
+        // maven {
+        //     url "http://maven.oa.com/nexus/content/groups/androidbuild"
+        // }
     }
 }
 
