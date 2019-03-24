@@ -5,6 +5,7 @@ import './HomePage.dart';
 import './ClassList.dart';
 import './MessageList.dart';
 import './Account.dart';
+import './Publish.dart';
 
 class App extends StatelessWidget {
   @override
@@ -33,7 +34,7 @@ class _AppRouteState extends State<_AppRoute>
   List tabs = [
     {'icon': Icons.home, 'title': '首页', 'loader':() => new HomePage()},
     {'icon': Icons.list, 'title': '分类', 'loader':() => new ClassList()},
-    {'key': 'publish', 'title': '发布','loader':() => new Account()},
+    {'key': 'publish', 'title': '发布','loader':() => new Publish()},
     {'icon': Icons.message, 'title': '消息', 'loader':() => new MessageList()},
     {'icon': Icons.person, 'title': '我的', 'loader':() => new Account()},
   ];

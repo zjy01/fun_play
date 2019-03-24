@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+void main() => print('print accounting');
 class Account extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _Account();
@@ -36,146 +36,13 @@ class _Account extends State<Account> {
       child: Column(
         children: <Widget>[
           _renderUserBox(),
-          Center(
-  child: Card(
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        const ListTile(
-          leading: Icon(Icons.album),
-          title: Text('The Enchanted Nightingale'),
-          subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
-        ),
-        ButtonTheme.bar( // make buttons use the appropriate styles for cards
-          child: ButtonBar(
-            children: <Widget>[
-              FlatButton(
-                child: const Text('BUY TICKETS'),
-                onPressed: () { /* ... */ },
-              ),
-              FlatButton(
-                child: const Text('LISTEN'),
-                onPressed: () { /* ... */ },
-              ),
-            ],
-          ),
-        ),
-      ],
-    ),
-  ),
-),
-Center(
-  child: Card(
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        const ListTile(
-          leading: Icon(Icons.album),
-          title: Text('The Enchanted Nightingale'),
-          subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
-        ),
-        ButtonTheme.bar( // make buttons use the appropriate styles for cards
-          child: ButtonBar(
-            children: <Widget>[
-              FlatButton(
-                child: const Text('BUY TICKETS'),
-                onPressed: () { /* ... */ },
-              ),
-              FlatButton(
-                child: const Text('LISTEN'),
-                onPressed: () { /* ... */ },
-              ),
-            ],
-          ),
-        ),
-      ],
-    ),
-  ),
-),
-Center(
-  child: Card(
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        const ListTile(
-          leading: Icon(Icons.album),
-          title: Text('The Enchanted Nightingale'),
-          subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
-        ),
-        ButtonTheme.bar( // make buttons use the appropriate styles for cards
-          child: ButtonBar(
-            children: <Widget>[
-              FlatButton(
-                child: const Text('BUY TICKETS'),
-                onPressed: () { /* ... */ },
-              ),
-              FlatButton(
-                child: const Text('LISTEN'),
-                onPressed: () { /* ... */ },
-              ),
-            ],
-          ),
-        ),
-      ],
-    ),
-  ),
-),
-Center(
-  child: Card(
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        const ListTile(
-          leading: Icon(Icons.album),
-          title: Text('The Enchanted Nightingale'),
-          subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
-        ),
-        ButtonTheme.bar( // make buttons use the appropriate styles for cards
-          child: ButtonBar(
-            children: <Widget>[
-              FlatButton(
-                child: const Text('BUY TICKETS'),
-                onPressed: () { /* ... */ },
-              ),
-              FlatButton(
-                child: const Text('LISTEN'),
-                onPressed: () { /* ... */ },
-              ),
-            ],
-          ),
-        ),
-      ],
-    ),
-  ),
-),
-Center(
-  child: Card(
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        const ListTile(
-          leading: Icon(Icons.album),
-          title: Text('The Enchanted Nightingale'),
-          subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
-        ),
-        ButtonTheme.bar( // make buttons use the appropriate styles for cards
-          child: ButtonBar(
-            children: <Widget>[
-              FlatButton(
-                child: const Text('BUY TICKETS'),
-                onPressed: () { /* ... */ },
-              ),
-              FlatButton(
-                child: const Text('LISTEN'),
-                onPressed: () { /* ... */ },
-              ),
-            ],
-          ),
-        ),
-      ],
-    ),
-  ),
-)
+          _renderCard(),
+          _renderCard(),
+          _renderCard(),
+          _renderCard(),
+          _renderCard(),
+          _renderCard(),
+          _renderCard(),
         ],
       ),
     ),
@@ -257,11 +124,51 @@ Center(
   }
 
   _renderNumText(String number, String text){
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
+    return RichText(
+      text: TextSpan(
+        style: TextStyle(color: Colors.black),
+        children: [
+          TextSpan(
+            text: text
+          ),
+          TextSpan(
+            text: number,
+             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Theme.of(context).primaryColor)
+          )
+        ]
+      ),
+    );
+  }
+
+  _renderCard(){
+    return Center(
+  child: Card(
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-      Text(number, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, textBaseline: TextBaseline.ideographic),),
-      Text(text, style: TextStyle(textBaseline: TextBaseline.ideographic),),
-    ],);
+        const ListTile(
+          leading: Icon(Icons.album),
+          title: Text('The Enchanted Nightingale'),
+          subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
+        ),
+        ButtonTheme.bar( // make buttons use the appropriate styles for cards
+          child: ButtonBar(
+            children: <Widget>[
+              FlatButton(
+                child: const Text('BUY TICKETS'),
+                onPressed: () { /* ... */ },
+              ),
+              FlatButton(
+                child: const Text('LISTEN'),
+                onPressed: () { /* ... */ },
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  ),
+);
+ 
   }
 }
