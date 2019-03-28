@@ -15,16 +15,22 @@ class _HomePage extends State<HomePage> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return Stack(
+      children: <Widget>[ 
+      VideoApp(),
+
+        AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         //导航栏
-        title: Text("推荐"),
+        title: Text("推荐", style: TextStyle(shadows: [Shadow()]),),
         actions: <Widget>[
           //导航栏右侧菜单
           IconButton(icon: Icon(Icons.search), onPressed: () {}),
         ],
       ),
-      body: VideoApp(),
+
+      ],
     );
   }
 }
@@ -41,7 +47,7 @@ class _VideoAppState extends State<VideoApp> {
   void initState() {
     super.initState();
     _controller = VideoPlayerController.network(
-        'http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4')
+        'http://192.168.1.4:8080/1553785666078244.mp4')
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});
@@ -53,7 +59,8 @@ class _VideoAppState extends State<VideoApp> {
     return MaterialApp(
       title: 'Video Demo',
       home: Scaffold(
-        body: Center(
+        body: ConstrainedBox(
+          constraints: BoxConstraints.expand(),
           child: _controller.value.initialized
               ? AspectRatio(
                   aspectRatio: _controller.value.aspectRatio,
