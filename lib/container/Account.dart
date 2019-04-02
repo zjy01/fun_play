@@ -5,7 +5,10 @@ class Account extends StatefulWidget {
   State<StatefulWidget> createState() => _Account();
 }
 
-class _Account extends State<Account> {
+class _Account extends State<Account> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+  
   @override
   void initState() {
     // TODO: implement initState
