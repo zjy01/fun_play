@@ -3,15 +3,24 @@ import 'package:video_player/video_player.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../util/http.dart';
+import '../util/const.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({
+    Key key, 
+    this.video
+  }): super(key: key);
+
+  final Map video;
   @override
-  State<StatefulWidget> createState() => _HomePage();
+  State<StatefulWidget> createState() => _HomePage(video: video);
 }
 
-class _HomePage extends State<HomePage> with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
+class _HomePage extends State<HomePage> {
+  _HomePage({
+    this.video
+  }) : super();
+  final Map video;
 
   @override
   void initState() {
@@ -24,7 +33,7 @@ class _HomePage extends State<HomePage> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        VideoApp(),
+        VideoApp(video: video,),
         _appBar(),
       ],
     );
@@ -52,13 +61,25 @@ class _HomePage extends State<HomePage> with AutomaticKeepAliveClientMixin {
 }
 
 class VideoApp extends StatefulWidget {
+  const VideoApp({
+    Key key, 
+    this.video
+  }): super(key: key);
+
+  final Map video;
   @override
-  _VideoAppState createState() => _VideoAppState();
+  _VideoAppState createState() => _VideoAppState(initVideo: video);
 }
 
 class _VideoAppState extends State<VideoApp> {
+
+  _VideoAppState({
+    this.initVideo
+  }) : super();
+  final Map initVideo;
+
   List<VideoPlayerController> _controllers = [];
-  List<String> mvs = [];
+  List<Map> mvs = [];
   int pageIndex = 0;
   PageController pageController = PageController(initialPage: 0);
 
@@ -70,7 +91,9 @@ class _VideoAppState extends State<VideoApp> {
 
   @override
   Widget build(BuildContext context) {
-    return _pageView();
+    return Scaffold(
+      body: _pageView(),
+    );
   }
 
   _pageView() {
@@ -83,9 +106,17 @@ class _VideoAppState extends State<VideoApp> {
         print('${_controllers.length}, $index');
         if (_controllers.length < index + 1 ||
             !_controllers[index].value.initialized) {
-          return SpinKitRing(
-            color: Colors.black26,
-            size: 50.0,
+          return DecoratedBox(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage("$HOST/${mvs[index]['thumb']}"),
+                fit: BoxFit.fill,
+              ),
+            ),
+            child: SpinKitRing(
+              color: Colors.black26,
+              size: 50.0,
+            ),
           );
         } else {
           var _controller = _controllers[index];
@@ -146,37 +177,51 @@ class _VideoAppState extends State<VideoApp> {
       print('init video pause');
       _controllers[pageIndex].pause();
     }
-    _initVideo(nextIndex+1);
+    _initVideo(nextIndex - 1);
+    _initVideo(nextIndex + 1);
   }
 
   _initVideo(nextIndex) {
     print('init video init');
-    if (_controllers.length <= nextIndex && mvs.length > nextIndex) {
-      String mp4 = mvs[nextIndex];
-      var _ctrl =
-          VideoPlayerController.network('http://funplay.carvenzhang.cn$mp4');
-      _controllers.insert(nextIndex, _ctrl);
-      _ctrl
-        ..setLooping(true)
+    if (nextIndex >= 0 && _controllers.length > nextIndex) {
+      var _ctrl =_controllers[nextIndex];
+      if(!_ctrl.value.initialized){
+        _ctrl
         ..initialize().then((_) {
           setState(() {});
         });
+      }
     }
   }
 
   _fetchVideo() async {
     var dio = Http();
-    Response resp = await dio.get('/video/recommend');
-    List mp4s = resp.data;
+    Response<List> resp = await dio.get('/video/recommend');
     setState(() {
-      mvs = mp4s.map((t) {
-        String video = t['video'];
-        return video;
+      mvs = resp.data.map((t){
+        return {
+          'video': t['video'],
+          'thumb': t['thumb']
+        };
       }).toList();
     });
-
-    _initVideo(0);
-    _initVideo(1);
+    _controllers = resp.data.map((t){
+      String mp4 = t['video'];
+      return VideoPlayerController.network('http://funplay.carvenzhang.cn$mp4')
+        ..setLooping(true);
+    }).toList();
+    int index = 0;
+    if(initVideo != null){
+      index = resp.data.indexWhere((item){
+      return item['video'] == initVideo['video'];
+      });
+    }
+    pageController.jumpToPage(index);
+    _initVideo(index);
+    _initVideo(index + 1);
+      setState(() {
+        pageIndex = index;
+      });
   }
 
   @override

@@ -1,0 +1,1 @@
+const HOST = 'http://funplay.carvenzhang.cn';

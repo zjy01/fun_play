@@ -1,6 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.funplay" android:targetSandboxVersion="1">
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
